@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <title>Session 0</title>
+        <link rel="stylesheet" href="tomstyle.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="tom.js"></script>
+    </head>
+    <body>
+        <h1>Session 0</h1>
+        <nav>
+            <a href=#>Notes</a>
+            <a href=#>NPCs</a>
+        </nav>
+        <div id="tabbed-content">
+
+        </div>
+        <div id="initiative-tracker-container">
+            <table id="initiative-tracker">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Initiative</th>
+                        <th>Dexterity</th>
+                        <th><input id="delete_all_initiative_records" type="button" value="Delete All"></input></th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td><input class="name-input" type="text" placeholder="Name"></input></td>
+                        <td><input class="initiative-input" type="number" placeholder="0"></input></td>
+                        <td><input class="dexterity-input" type="number" placeholder="0"></input></td>
+                        <td><input id="create_initiative_record" type="button" value="Create"></input></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div id="time-tracker">
+            <div id="timer">
+
+            </div>
+            <div id="history">
+
+            </div>
+        </div>
+    </body>
+</html>
