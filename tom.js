@@ -48,7 +48,7 @@ $(function() {
         }
 
         $current_row.removeClass("initiative_record_highlighted");
-        $next_row = $current_row.next(".enabled").first();
+        $next_row = $current_row.nextAll(".enabled").first();
         if ($next_row.length == 0) {
             highlight_first_initiative_record();
         }
