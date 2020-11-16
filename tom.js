@@ -27,19 +27,28 @@ $(function() {
     // Highlight the first record
     function highlight_first_initiative_record() {
         if ($initiative_records.length > 0) {
-            $initiative_records.children().each(function() {
-                $(this).removeClass("initiative_record_highlighted");
-            });
+            unhighlight_initiative_records();
             $tr = $initiative_records.children(".enabled").first();
             $tr.addClass("initiative_record_highlighted");
         }
     }
 
+    function unhighlight_initiative_records() {
+        $initiative_records.children().each(function() {
+            $(this).removeClass("initiative_record_highlighted");
+        });
+    }
+
     // Move the highlight down 1 row
     function highlight_next_initiative_record() {
         $current_row = $initiative_records.find(".initiative_record_highlighted");
+        if ($current_row.length == 0) {
+            highlight_first_initiative_record();
+            return
+        }
+
         $current_row.removeClass("initiative_record_highlighted");
-        $next_row = $current_row.siblings(".enabled").first();
+        $next_row = $current_row.next(".enabled").first();
         if ($next_row.length == 0) {
             highlight_first_initiative_record();
         }
@@ -69,12 +78,12 @@ $(function() {
                 var initiative = $($td).text();
                 $td = $tr.children[2];
                 var dexterity = $($td).text();
-                if (initiative < lowest_initiative || 
+                if (initiative < lowest_initiative ||
                     (initiative == lowest_initiative && dexterity < lowest_dexterity)) {
                     lowest_initiative = initiative;
                     lowest_dexterity = dexterity;
                     lowest_index = i;
-                } 
+                }
             }
             $ordered_records.unshift($records.splice(lowest_index, 1))
             lowest_initiative = 99999;
@@ -92,9 +101,16 @@ $(function() {
         var name = $("#initiative-tracker .name-input").val();
         var initiative = $("#initiative-tracker .initiative-input").val();
         var dexterity = $("#initiative-tracker .dexterity-input").val();
-        if (name == "" || initiative == "" || dexterity == "") {
+        if (name == "") {
             return
         }
+        if (initiative == "") {
+            initiative = 0;
+        }
+        if (dexterity == "") {
+            dexterity = 0;
+        }
+
         $new_record = create_initiative_record(name, initiative, dexterity);
 
         $initiative_records.append($new_record);
@@ -103,6 +119,8 @@ $(function() {
         $("#initiative-tracker .name-input").val("");
         $("#initiative-tracker .initiative-input").val("");
         $("#initiative-tracker .dexterity-input").val("");
+
+        $("#initiative-tracker .name-input").focus()
     });
 
     $("#delete_all_initiative_records").click(function() {
@@ -182,6 +200,8 @@ $(function() {
         $next_player_button.prop("disabled", true);
 
         paused = false;
+
+        unhighlight_initiative_records();
     });
 
     $pause_button.click(function() {
@@ -193,7 +213,7 @@ $(function() {
         $next_player_button.prop("disabled", true);
     });
 
-    
+
     function stop_watch_process() {
         var current_time = new Date().getTime();
         var diff = (current_time - previous_time);
@@ -210,7 +230,7 @@ $(function() {
         var minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
         var seconds = Math.floor((ms % (1000 * 60)) / 1000);
         var milliseconds = Math.floor(ms % 1000);
-        
+
         hours = (hours < 10) ? "0" + hours : hours;
         minutes = (minutes < 10) ? "0" + minutes : minutes;
         seconds = (seconds < 10) ? "0" + seconds : seconds;
@@ -222,11 +242,11 @@ $(function() {
     // History
     $next_player_button.click(function() {
         var name = get_highlighted_initiative_record_name();
+        highlight_next_initiative_record();
         if (name == "") {
             return
         }
 
-        highlight_next_initiative_record();
         $new_record = create_history_record(name, format_time(time_elapsed));
         $history_records.prepend($new_record);
     });
