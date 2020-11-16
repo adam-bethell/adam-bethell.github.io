@@ -3,26 +3,55 @@ $(function() {
     // Initiative Tracker
     //=======================================
 
+    $initiative_records = $("#initiative-tracker tbody");
+
     // Enabled records buttons
     $enabled_records_buttons = $("<td>")
-        .append($("<input>").attr({"type":"button","value":"Disable"}).addClass("disable_initiative_record"))
+        .append($("<input>").attr({"type":"button","value":"Disable"}).addClass("disable_initiative_record"));
 
     // Disabled records buttons
     $disabled_records_buttons = $("<td>")
         .append($("<input>").attr({"type":"button","value":"Enable"}).addClass("enable_initiative_record"))
-        .append($("<input>").attr({"type":"button","value":"Delete"}).addClass("delete_initiative_record"))
-
-    // Get existing records
-    $initiative_records = $("#initiative-tracker tbody");
+        .append($("<input>").attr({"type":"button","value":"Delete"}).addClass("delete_initiative_record"));
 
     // Create a new record
     function create_initiative_record(name, initiative, dexterity) {
-        $new_row = $("<tr>");
+        $new_row = $("<tr>").addClass("enabled");
         $new_row.append($("<td>").text(name));
         $new_row.append($("<td>").text(initiative));
         $new_row.append($("<td>").text(dexterity));
         $new_row.append($enabled_records_buttons.clone())
         return $new_row
+    }
+
+    // Highlight the first record
+    function highlight_first_initiative_record() {
+        if ($initiative_records.length > 0) {
+            $initiative_records.children().each(function() {
+                $(this).removeClass("initiative_record_highlighted");
+            });
+            $tr = $initiative_records.children(".enabled").first();
+            $tr.addClass("initiative_record_highlighted");
+        }
+    }
+
+    // Move the highlight down 1 row
+    function highlight_next_initiative_record() {
+        $current_row = $initiative_records.find(".initiative_record_highlighted");
+        $current_row.removeClass("initiative_record_highlighted");
+        $next_row = $current_row.siblings(".enabled").first();
+        if ($next_row.length == 0) {
+            highlight_first_initiative_record();
+        }
+        else {
+            $next_row.addClass("initiative_record_highlighted");
+        }
+    }
+
+    // Get name from highlighted row
+    function get_highlighted_initiative_record_name() {
+        $current_row = $initiative_records.find(".initiative_record_highlighted");
+        return $current_row.children().first().text();
     }
 
     // Order existing records
@@ -102,4 +131,110 @@ $(function() {
         $tr = $(this).closest("tr");
         $tr.remove()
     });
+
+    //=======================================
+    // Timer & History
+    //=======================================
+    // Timer
+    $timer_time = $("#timer #clock");
+    $start_button = $("#stop_watch_start");
+    $pause_button = $("#stop_watch_pause");
+    $stop_button = $("#stop_watch_stop");
+    $next_player_button = $("#stop_watch_next_player");
+
+    $pause_button.prop("disabled", true);
+    $stop_button.prop("disabled", true);
+    $next_player_button.prop("disabled", true);
+
+    // History
+    $history_records = $("#history tbody");
+
+    var timer_interval;
+    var previous_time = "";
+    var time_elapsed = 0;
+    var time = 0;
+    var paused = false;
+
+    $start_button.click(function() {
+        if (paused) {
+            paused = false;
+        }
+        else {
+            previous_time = new Date().getTime();
+            time_elapsed = 0;
+            timer_interval = setInterval(stop_watch_process, 1);
+            highlight_first_initiative_record();
+            $history_records.empty();
+        }
+
+        $start_button.prop("disabled", true);
+        $pause_button.prop("disabled", false);
+        $stop_button.prop("disabled", false);
+        $next_player_button.prop("disabled", false);
+    });
+
+    $stop_button.click(function() {
+        clearInterval(timer_interval);
+
+        $start_button.prop("disabled", false);
+        $pause_button.prop("disabled", true);
+        $stop_button.prop("disabled", true);
+        $next_player_button.prop("disabled", true);
+
+        paused = false;
+    });
+
+    $pause_button.click(function() {
+        paused = true;
+
+        $start_button.prop("disabled", false);
+        $pause_button.prop("disabled", true);
+        $stop_button.prop("disabled", false);
+        $next_player_button.prop("disabled", true);
+    });
+
+    
+    function stop_watch_process() {
+        var current_time = new Date().getTime();
+        var diff = (current_time - previous_time);
+        previous_time += diff;
+        if (!paused) {
+            time_elapsed += diff;
+        }
+
+        $timer_time.text(format_time(time_elapsed));
+    }
+
+    function format_time(ms) {
+        var hours = Math.floor((ms % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((ms % (1000 * 60)) / 1000);
+        var milliseconds = Math.floor(ms % 1000);
+        
+        hours = (hours < 10) ? "0" + hours : hours;
+        minutes = (minutes < 10) ? "0" + minutes : minutes;
+        seconds = (seconds < 10) ? "0" + seconds : seconds;
+        milliseconds = (milliseconds < 100) ? (milliseconds < 10) ? "00" + milliseconds : "0" + milliseconds : milliseconds;
+
+        return hours + ":" + minutes + ":" + seconds + "." + milliseconds
+    }
+
+    // History
+    $next_player_button.click(function() {
+        var name = get_highlighted_initiative_record_name();
+        if (name == "") {
+            return
+        }
+
+        highlight_next_initiative_record();
+        $new_record = create_history_record(name, format_time(time_elapsed));
+        $history_records.prepend($new_record);
+    });
+
+    function create_history_record(name, time) {
+        $new_row = $("<tr>");
+        $new_row.append($("<td>").text(name));
+        $new_row.append($("<td>").text(time));
+        return $new_row
+    }
 });

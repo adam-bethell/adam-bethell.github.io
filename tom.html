@@ -39,12 +39,27 @@
                 </tfoot>
             </table>
         </div>
-        <div id="time-tracker">
+        <div id="time-history">
             <div id="timer">
-
+                <h2 id="clock">00:00:00.00</h2>
+                <div>
+                    <input id="stop_watch_start" type="button" value="Start"></input>
+                    <input id="stop_watch_pause" type="button" value="Pause"></input>
+                    <input id="stop_watch_stop" type="button" value="Stop"></input>
+                </div>
+                <input id="stop_watch_next_player" type="button" value="Next Player"></input>
             </div>
-            <div id="history">
-
+            <div id="history-container">
+                <table id="history">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
             </div>
         </div>
     </body>

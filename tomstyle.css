@@ -1,0 +1,21 @@
+#initiative-tracker {
+    border-collapse: collapse;
+}
+
+#initiative-tracker td {
+    position: relative;
+    padding: 5px 10px;
+}
+
+#initiative-tracker .disabled td:before {
+    content: " ";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    border-bottom: 1px solid #111;
+    width: 100%;
+}
+
+#initiative-tracker .initiative_record_highlighted {
+    background-color: burlywood;
+}
