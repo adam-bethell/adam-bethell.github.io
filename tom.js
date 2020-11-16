@@ -249,6 +249,8 @@ $(function() {
 
         $new_record = create_history_record(name, format_time(time_elapsed));
         $history_records.prepend($new_record);
+
+        time_elapsed = 0;
     });
 
     function create_history_record(name, time) {
