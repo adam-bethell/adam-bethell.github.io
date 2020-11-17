@@ -36,6 +36,12 @@ $(function() {
             return false;
         }
 
+        // Invalid dice syntax
+        let equation_copy = equation.replace(/([0-9]+)([AD]?)[D]([0-9]+)/g, "");
+        if (equation_copy.match(/[AD]/g) != null) {
+            return false;
+        }
+
         return true
     }
 
