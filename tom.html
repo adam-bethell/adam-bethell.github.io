@@ -3,10 +3,12 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-        <title>Session 0</title>
+        <title>Initiative Tracker</title>
         <link rel="stylesheet" href="tomstyle.css">
+        <link rel="stylesheet" href="dice.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="tom.js"></script>
+        <script src="dice.js"></script>
     </head>
     <body>
         <div class="top_content">
@@ -70,5 +72,8 @@
                 </div>
             </div>
         </div>
+        <input id="dice_input" type="text" placeholder="1d20 + 3d4 + 1d7 - 1"></input>
+        <input id="dice_submit" type="button" value="ROLL!"></input>
+        <p id="dice_output"></p>
     </body>
 </html>
