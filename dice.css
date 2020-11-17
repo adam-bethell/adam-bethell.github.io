@@ -5,3 +5,8 @@
 .dice_crit {
     color: green;
 }
+
+.dice_discard {
+    text-decoration: line-through;
+    font-size: 80%;
+}
