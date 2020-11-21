@@ -3,77 +3,20 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-        <title>Initiative Tracker</title>
+        <title>T.O.M v0.1.0</title>
         <link rel="stylesheet" href="tomstyle.css">
-        <link rel="stylesheet" href="dice.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="tom.js"></script>
-        <script src="dice.js"></script>
     </head>
     <body>
-        <div class="top_content">
-            <h1 class="heading">Initiative Tracker</h1>
-        </div>
-        <div class="main_content">
-            <div id="trackers-container">
-                <div>
-                    <table id="initiative-tracker" class="standard_border">
-                        <thead>
-                            <tr>
-                                <th><h2>Initiative</h2></th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                            <tr>
-                                <th>Name</th>
-                                <th>Initiative</th>
-                                <th>Dexterity</th>
-                                <th><input id="delete_all_initiative_records" type="button" value="Delete All"></input></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td><input class="name-input" type="text" placeholder="Name"></input></td>
-                                <td><input class="initiative-input" type="number" placeholder="0"></input></td>
-                                <td><input class="dexterity-input" type="number" placeholder="0"></input></td>
-                                <td><input id="create_initiative_record" type="button" value="Create"></input></td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-                <div>
-                    <div id="timer" class="standard_border">
-                        <h2 id="clock">00:00:00.00</h2>
-                        <div>
-                            <input id="stop_watch_start" type="button" value="Start"></input>
-                            <input id="stop_watch_pause" type="button" value="Pause"></input>
-                            <input id="stop_watch_stop" type="button" value="Stop"></input>
-                        </div>
-                        <input id="stop_watch_next_player" type="button" value="Next Player"></input>
-                    </div>
-                    <div id="history-container">
-                        <table id="history" class="standard_border">
-                            <thead>
-                                <tr>
-                                    <th><h2>History</h2></th>
-                                    <th></th>
-                                </tr>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Time</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <input id="dice_input" type="text" placeholder="1d20 + 3d4 + 1d7 - 1"></input>
-        <input id="dice_submit" type="button" value="ROLL!"></input>
-        <p id="dice_output"></p>
+        <header class="top_content">
+            <h1 class="heading">Turn Order Manager</h1>
+            <img src="logo.png"><img>
+        </header>
+        <section>
+            <p>T.O.M (Turn Order Manager) is an ever growing set of DM tools.</p>
+            <a href="T.O.M-win32-x64.zip">Download .zip (v0.1.0)</a>
+            <br />
+            <a href="https://github.com/adam-bethell/turn-order-manager">View on GitHub</a>
+        </section>
     </body>
 </html>
